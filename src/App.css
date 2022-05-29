@@ -1,8 +1,11 @@
-* {
+.main {
   background-color: gray;
 }
 .Input-search {
   display: flex;
   justify-content: center;
   margin-top: 40px;
+}
+.main-row {
+  margin-left: 40px;
 }
