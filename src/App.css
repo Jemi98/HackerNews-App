@@ -9,3 +9,7 @@
 .main-row {
   margin-left: 40px;
 }
+.category {
+  margin: 20px 0px 20px 60px;
+  text-transform: capitalize;
+}

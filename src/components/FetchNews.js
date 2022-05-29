@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 const FetchNews = () => {
   const [item, setItem] = useState([]);
-  const [query, setQuery] = useState("programming");
+  const [query, setQuery] = useState("crypto");
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -28,8 +28,6 @@ const FetchNews = () => {
 
     setQuery(text);
     setText("");
-    console.log(text);
-    console.log(query);
   };
 
   return (
@@ -68,6 +66,11 @@ const FetchNews = () => {
               </form>
             </div>
             {/* End Form*/}
+            <div className="category">
+              <label class="btn btn-dark mr-5">Category</label>
+
+              <label class="text-dark m-2">{query}</label>
+            </div>
 
             {/* Display data start*/}
             <section className="bg-light">
