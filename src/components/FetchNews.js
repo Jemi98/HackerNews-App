@@ -1,6 +1,8 @@
+import React, { useEffect, useState } from "react";
 import "../App.css";
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FetchNews = () => {
   const [item, setItem] = useState([]);
@@ -16,8 +18,6 @@ const FetchNews = () => {
       const data = await response.json();
 
       setItem(data.hits);
-
-      console.log(data);
     };
     fetchNews();
     setIsLoading(false);
@@ -25,51 +25,72 @@ const FetchNews = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setQuery(text);
-    setText("");
+    if (!text) {
+      toast.warn("Imput is empty", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      setQuery(text);
+      setText("");
+    }
   };
 
   return (
     <>
       <main>
         {/* Loading.....  start*/}
-        {isLoading ? (
-          <div class="d-flex justify-content-center">
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
+        <div className="main">
+          {/* Search Form*/}
+          <form className="form-inline d-flex justify-content-center">
+            <div className="form-group  m-5 w-50 d-flex">
+              <input
+                type="text"
+                className="form-control"
+                id="input1"
+                placeholder="Enter something to search..."
+                required
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+              />
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                className="btn btn-secondary p-3  search"
+              >
+                Search
+              </button>
             </div>
+          </form>
+        </div>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        {/* End Form*/}
+
+        {isLoading ? (
+          <div className="d-flex justify-content-center z-100">
+            <div className="spinner-border" role="status"></div>
           </div>
         ) : (
           <>
-            <div className="main">
-              {/* Search Form*/}
-              <form className="form-inline d-flex justify-content-center">
-                <div className="form-group  m-5 w-50 d-flex">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="input1"
-                    placeholder="Enter something to search..."
-                    required
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                  />
-                  <button
-                    type="submit"
-                    onClick={handleSubmit}
-                    className="btn btn-primary m-1 p-2 "
-                  >
-                    Search
-                  </button>
-                </div>
-              </form>
-            </div>
-            {/* End Form*/}
             <div className="category">
-              <label class="btn btn-dark mr-5">Category</label>
+              <label className="btn btn-secondary mr-5">Category</label>
 
-              <label class="text-dark m-2">{query}</label>
+              <label className="text-dark m-2">{query}</label>
             </div>
 
             {/* Display data start*/}
@@ -117,9 +138,14 @@ const FetchNews = () => {
               </div>
             </section>
 
-            <p style={{ textAlign: "center", textTransform: "capitalize" }}>
-              copyright © 2022- Made with 🖤 By Jemi{" "}
-            </p>
+            {item && (
+              <p
+                className="footer"
+                style={{ textAlign: "center", textTransform: "capitalize" }}
+              >
+                copyright © 2022- Made with 🖤 By Jemi{" "}
+              </p>
+            )}
           </>
         )}
         {/* Display data end*/}
